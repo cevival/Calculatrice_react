@@ -1,11 +1,41 @@
 import "./index.css";
 
 function App() {
+  const ACRTIONS = {
+    ADD_DIGIT: "add-digit",
+    CHOOSE_OPERATION: "choose-operation",
+    CLEAR: "clear",
+    DELETE_DIGIT: "delete-digit",
+    EVALUATE: "evaluate",
+  };
+
+  function reducer(state, { type, paylod }) {
+    switch (type) {
+      case ACRTIONS.ADD_DIGIT:
+        return {
+          ...state,
+          currentOperand: `${state.currentOperand || ""}${paylod.digit}`,
+        };
+      case ACRTIONS.CLEAR:
+        return {};
+      default:
+        return state;
+    }
+  }
+
+  const [{ currentOperand, previousOperand, operation }, dispatch] =
+    useReducer(reducer);
+
+  dispatch({ type: ACRTIONS.ADD_DIGIT, paylod: { digit: 1 } });
+
   return (
     <div className="calculator-grid">
       <div className="output">
-        <div className="previous-operand">131313.313*</div>
-        <div className="curent-operand">131313.313</div>
+        <div className="previous-operand">
+          {previousOperand}
+          {operation}
+        </div>
+        <div className="curent-operand">{currentOperand}</div>
       </div>
       <button className="span-two">AC</button>
       <button>DEL</button>
